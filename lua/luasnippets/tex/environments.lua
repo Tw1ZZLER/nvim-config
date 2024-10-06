@@ -35,100 +35,100 @@ local in_bullets_cond = make_condition(tex.in_bullets)
 local line_begin = require("luasnip.extras.conditions.expand").line_begin
 
 local M = {
-    s(
-        { trig = "beg", name = "begin/end", dscr = "begin/end environment (generic)" },
-        fmta(
-            [[
+  s(
+    { trig = "beg", name = "begin/end", dscr = "begin/end environment (generic)" },
+    fmta(
+      [[
     \begin{<>}
     <>
     \end{<>}
     ]],
-            { i(1), i(0), rep(1) }
-        ),
-        { condition = tex.in_text, show_condition = tex.in_text }
+      { i(1), i(0), rep(1) }
     ),
+    { condition = tex.in_text, show_condition = tex.in_text }
+  ),
 
-    s(
-        { trig = "-i", name = "itemize", dscr = "bullet points (itemize)" },
-        fmta(
-            [[
+  s(
+    { trig = "-i", name = "itemize", dscr = "bullet points (itemize)" },
+    fmta(
+      [[
     \begin{itemize}
     \item <>
     \end{itemize}
     ]],
-            {
-                c(1, {
-                    i(0),
-                    sn(
-                        nil,
-                        fmta(
-                            [[
+      {
+        c(1, {
+          i(0),
+          sn(
+            nil,
+            fmta(
+              [[
         [<>] <>
         ]],
-                            { i(1), i(0) }
-                        )
-                    ),
-                }),
-            }
-        ),
-        { condition = tex.in_text, show_condition = tex.in_text }
+              { i(1), i(0) }
+            )
+          ),
+        }),
+      }
     ),
+    { condition = tex.in_text, show_condition = tex.in_text }
+  ),
 
-    -- requires enumitem
-    s(
-        { trig = "-e", name = "enumerate", dscr = "numbered list (enumerate)" },
-        fmta(
-            [[
+  -- requires enumitem
+  s(
+    { trig = "-e", name = "enumerate", dscr = "numbered list (enumerate)" },
+    fmta(
+      [[
     \begin{enumerate}<>
     \item <>
     \end{enumerate}
     ]],
-            {
-                c(1, {
-                    t "",
-                    sn(
-                        nil,
-                        fmta(
-                            [[
+      {
+        c(1, {
+          t "",
+          sn(
+            nil,
+            fmta(
+              [[
         [label=<>]
         ]],
-                            { c(1, { t "(\\alph*)", t "(\\roman*)", i(1) }) }
-                        )
-                    ),
-                }),
-                c(2, {
-                    i(0),
-                    sn(
-                        nil,
-                        fmta(
-                            [[
+              { c(1, { t "(\\alph*)", t "(\\roman*)", i(1) }) }
+            )
+          ),
+        }),
+        c(2, {
+          i(0),
+          sn(
+            nil,
+            fmta(
+              [[
         [<>] <>
         ]],
-                            { i(1), i(0) }
-                        )
-                    ),
-                }),
-            }
-        ),
-        { condition = tex.in_text, show_condition = tex.in_text }
+              { i(1), i(0) }
+            )
+          ),
+        }),
+      }
     ),
+    { condition = tex.in_text, show_condition = tex.in_text }
+  ),
 
-    -- generate new bullet points
-    autosnippet(
-        { trig = "--", hidden = true },
-        { t "\\item" },
-        { condition = in_bullets_cond * line_begin, show_condition = in_bullets_cond * line_begin }
-    ),
-    autosnippet(
-        { trig = "!-", name = "bullet point", dscr = "bullet point with custom text" },
-        fmta(
-            [[
+  -- generate new bullet points
+  autosnippet(
+    { trig = "--", hidden = true },
+    { t "\\item" },
+    { condition = in_bullets_cond * line_begin, show_condition = in_bullets_cond * line_begin }
+  ),
+  autosnippet(
+    { trig = "!-", name = "bullet point", dscr = "bullet point with custom text" },
+    fmta(
+      [[
     \item [<>]<>
     ]],
-            { i(1), i(0) }
-        ),
-        { condition = in_bullets_cond * line_begin, show_condition = in_bullets_cond * line_begin }
+      { i(1), i(0) }
     ),
+    { condition = in_bullets_cond * line_begin, show_condition = in_bullets_cond * line_begin }
+  ),
 }
 
 return M
