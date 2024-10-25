@@ -31,8 +31,10 @@ vim.opt.colorcolumn = "100"
 -- LUASNIP --
 -------------
 
--- Load snippets from ~/.config/nvim/LuaSnip/
-require("luasnip.loaders.from_lua").load { paths = "~/.config/nvim/lua/luasnippets/" }
+-- Snippets path
+require("luasnip.loaders.from_lua").load {
+  paths = { "~/.config/nvim/lua/luasnippets/", "~/.config/nvim/lua/luasnip-latex-snippets/" },
+}
 
 -- Somewhere in your Neovim startup, e.g. init.lua
 require("luasnip").config.set_config { -- Setting LuaSnip config
@@ -43,3 +45,8 @@ require("luasnip").config.set_config { -- Setting LuaSnip config
   -- Use Tab (or some other key if you prefer) to trigger visual selection
   store_selection_keys = "<Tab>",
 }
+
+---------------
+-- TELESCOPE --
+---------------
+require("telescope").load_extension "luasnip"
