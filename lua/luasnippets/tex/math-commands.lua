@@ -239,7 +239,6 @@ local auto_backslash_specs = {
   "argmin",
   "deg",
   "angle",
-  "vec",
 }
 
 local auto_backslash_snippets = {}
@@ -247,6 +246,8 @@ for _, v in ipairs(auto_backslash_specs) do
   table.insert(auto_backslash_snippets, auto_backslash_snippet({ trig = v }, { condition = tex.in_math }))
 end
 vim.list_extend(M, auto_backslash_snippets)
+-- print(vim.inspect(auto_backslash_snippets))
+-- print(vim.inspect(M))
 
 -- Symbols/Commands
 local greek_specs = {
@@ -437,6 +438,13 @@ local single_command_math_specs = {
     command = [[\sqrt]],
     ext = { choice = true },
   },
+  vec = {
+    context = {
+      name = "vector",
+      dscr = "vector arrow symbol",
+    },
+    command = [[\vec]],
+  },
 }
 
 local single_command_math_snippets = {}
@@ -522,6 +530,17 @@ local postfix_math_specs = {
     },
     command = {
       pre = [[\tilde{]],
+      post = [[}]],
+    },
+  },
+  vec = {
+    context = {
+      name = "vector",
+      priority = 100,
+      dscr = "vector",
+    },
+    command = {
+      pre = [[\vec{]],
       post = [[}]],
     },
   },

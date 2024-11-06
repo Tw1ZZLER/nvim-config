@@ -56,7 +56,7 @@ end
 -- update for cases
 local generate_cases = function(snip)
   local rows = tonumber(snip.captures[1]) or 2 -- default option 2 for cases
-  local cols = 2 -- fix to 2 cols
+  local cols = 2                               -- fix to 2 cols
   local nodes = {}
   local ins_indx = 1
   for j = 1, rows do
