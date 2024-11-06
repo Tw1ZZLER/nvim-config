@@ -4,12 +4,12 @@
 return {
   {
     "normen/vim-pio",
-    lazy = false,
+    ft = { "cpp", "h", "platformio.ini" },
     config = function() end,
   },
   {
     "coddingtonbear/neomake-platformio",
-    lazy = false,
+    ft = { "cpp", "h", "platformio.ini" },
     config = function() end,
   },
 }
