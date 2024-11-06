@@ -9,5 +9,8 @@ return {
   { import = "astrocommunity.pack.cpp" },
   { import = "astrocommunity.colorscheme.gruvbox-nvim" },
   -- { import = "astrocommunity.recipes.heirline-nvchad-statusline" },
-  { import = "astrocommunity.recipes.heirline-mode-text-statusline" },
+  -- { import = "astrocommunity.recipes.heirline-mode-text-statusline" },
+  { import = "astrocommunity.markdown-and-latex.vimtex" },
+  { import = "astrocommunity.bars-and-lines.lualine-nvim" },
+  { import = "astrocommunity.recipes.neovide" },
 }
