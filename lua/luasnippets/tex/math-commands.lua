@@ -211,6 +211,18 @@ local M = {
     ),
     { condition = tex.in_math, show_condition = tex.in_math }
   ),
+
+  -- siunitx quantity
+  autosnippet(
+    { trig = "qty", name = "quantity", dscr = "siunitx quantity" },
+    fmta(
+      [[
+      \qty{<>}{<>}<>
+      ]],
+      { i(1), i(2), i(0) }
+    ),
+    { condition = tex.in_math, show_condition = tex.in_math }
+  ),
 }
 
 -- Auto backslashes
@@ -541,6 +553,16 @@ local postfix_math_specs = {
     },
     command = {
       pre = [[\vec{]],
+      post = [[}]],
+    },
+  },
+  box = {
+    context = {
+      name = "boxed",
+      dscr = "boxed formula",
+    },
+    command = {
+      pre = [[\boxed{]],
       post = [[}]],
     },
   },
