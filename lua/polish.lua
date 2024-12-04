@@ -28,6 +28,12 @@ vim.opt.updatetime = 50
 vim.opt.colorcolumn = "100"
 vim.opt.cmdheight = 0
 
+---------------------
+-- SPELL & GRAMMAR --
+---------------------
+vim.opt.spelllang = "en_us"
+vim.opt.spell = true
+
 -------------
 -- LUASNIP --
 -------------
