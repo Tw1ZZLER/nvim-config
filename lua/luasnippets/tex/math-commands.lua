@@ -391,6 +391,13 @@ local single_command_math_specs = {
     },
     command = [[\text]],
   },
+  text = {
+    context = {
+      name = "text (math)",
+      dscr = "text in math mode",
+    },
+    command = [[\text]],
+  },
   sbf = {
     context = {
       name = "symbf",
