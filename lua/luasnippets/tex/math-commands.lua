@@ -251,6 +251,7 @@ local auto_backslash_specs = {
   "argmin",
   "deg",
   "angle",
+  "ell",
 }
 
 local auto_backslash_snippets = {}
