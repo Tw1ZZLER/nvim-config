@@ -249,7 +249,6 @@ local auto_backslash_specs = {
   "min",
   "argmax",
   "argmin",
-  "deg",
   "angle",
   "ell",
 }
@@ -373,6 +372,7 @@ local symbol_specs = {
   dag = { context = { name = "†" }, command = [[\dagger]] },
   ["+-"] = { context = { name = "†" }, command = [[\pm]] },
   ["-+"] = { context = { name = "†" }, command = [[\mp]] },
+  deg = { context = { name = "◦" }, command = [[\degree]] },
 }
 
 local symbol_snippets = {}
