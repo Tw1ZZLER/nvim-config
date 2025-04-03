@@ -52,6 +52,7 @@ return {
       clangd = {
         capabilities = {
           offsetEncoding = "utf-8",
+          format_on_save = false,
         },
       },
       ltex = {
