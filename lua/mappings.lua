@@ -1,9 +1,11 @@
+local opts = { noremap = true, silent = true }
+
 -------------------
 -- COMPILER.NVIM --
 -------------------
 
 -- Open compiler
-vim.api.nvim_set_keymap("n", "<F6>", "<cmd>CompilerOpen<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<F6>", "<cmd>CompilerOpen<cr>", opts)
 
 -- Redo last selected option
 vim.api.nvim_set_keymap(
@@ -15,7 +17,7 @@ vim.api.nvim_set_keymap(
 )
 
 -- Toggle compiler results
-vim.api.nvim_set_keymap("n", "<S-F7>", "<cmd>CompilerToggleResults<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<S-F7>", "<cmd>CompilerToggleResults<cr>", opts)
 
 -------------
 -- LUASNIP --
