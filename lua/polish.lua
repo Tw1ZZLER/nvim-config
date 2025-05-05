@@ -57,3 +57,9 @@ require("luasnip").config.set_config { -- Setting LuaSnip config
 -- TELESCOPE --
 ---------------
 require("telescope").load_extension "luasnip"
+
+-----------------------
+-- REMOVE BACKGROUND --
+-----------------------
+vim.api.nvim_set_hl(0, "Normal", { guibg = nil, ctermbg = nil })
+vim.t.is_transparent = 1
