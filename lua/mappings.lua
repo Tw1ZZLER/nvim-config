@@ -1,5 +1,8 @@
 local opts = { noremap = true, silent = true }
 
+-- open / close neotree with F1
+vim.api.nvim_set_keymap("n", "<F1>", "<Cmd>Neotree toggle<CR>", opts)
+
 -------------------
 -- COMPILER.NVIM --
 -------------------
