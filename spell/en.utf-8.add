@@ -59,3 +59,5 @@ Memgraph
 Neo4J
 metadata
 betweenness
+json
+uuid
