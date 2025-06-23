@@ -12,8 +12,8 @@ return {
         paths = { "~/.config/nvim/lua/luasnippets/", "~/.config/nvim/lua/luasnip-latex-snippets/" },
       }
 
-      -- Somewhere in your Neovim startup, e.g. init.lua
-      require("luasnip").config.set_config { -- Setting LuaSnip config
+      -- Setting LuaSnip config
+      require("luasnip").config.set_config {
 
         -- Enable autotriggered snippets
         enable_autosnippets = true,
