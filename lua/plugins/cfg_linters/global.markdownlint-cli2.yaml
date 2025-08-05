@@ -1,3 +1,4 @@
 config:
+  MD001: false # heading increment (I do what I want)
   MD013: false # line length warning
   MD024: false # duplicate headings (I do want I want)
