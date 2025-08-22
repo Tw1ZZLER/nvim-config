@@ -8,7 +8,7 @@ return {
       ["markdownlint-cli2"] = {
         args = {
           "--config",
-          vim.fn.stdpath "config" .. "/lua/plugins/cfg_linters/global.markdownlint-cli2.yaml",
+          vim.fn.stdpath "config" .. "/lua/config/linters/global.markdownlint-cli2.yaml",
           "--",
         },
       },
