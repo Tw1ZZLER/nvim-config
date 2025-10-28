@@ -26,5 +26,8 @@ return {
    ]],
       },
     },
+    image = {
+      enabled = true,
+    },
   },
 }
