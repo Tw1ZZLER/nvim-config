@@ -22,20 +22,20 @@ imap <silent><expr> <S-Tab> luasnip#jumpable(-1) ? '<Plug>luasnip-jump-prev' : '
 smap <silent><expr> <S-Tab> luasnip#jumpable(-1) ? '<Plug>luasnip-jump-prev' : '<S-Tab>'
 ]]
 
--- Override K to use pretty_hover
-map("n", "K", function() require("pretty_hover").hover() end, { desc = "Pretty Hover" })
-
-----------------
--- HOVER.NVIM --
-----------------
--- Setup keymaps
-map("n", "K", require("hover").hover, { desc = "hover.nvim" })
-map("n", "gK", require("hover").hover_select, { desc = "hover.nvim (select)" })
--- stylua: ignore
-map("n", "<C-p>", function() require("hover").hover_switch "previous" end, { desc = "hover.nvim (previous source)" })
--- stylua: ignore
-map("n", "<C-n>", function() require("hover").hover_switch "next" end, { desc = "hover.nvim (next source)" })
-
--- Mouse support
-map("n", "<MouseMove>", require("hover").hover_mouse, { desc = "hover.nvim (mouse)" })
-vim.o.mousemoveevent = true
+-- -- Override K to use pretty_hover
+-- map("n", "K", function() require("pretty_hover").hover() end, { desc = "Pretty Hover" })
+--
+-- ----------------
+-- -- HOVER.NVIM --
+-- ----------------
+-- -- Setup keymaps
+-- map("n", "K", require("hover").hover, { desc = "hover.nvim" })
+-- map("n", "gK", require("hover").hover_select, { desc = "hover.nvim (select)" })
+-- -- stylua: ignore
+-- map("n", "<C-p>", function() require("hover").hover_switch "previous" end, { desc = "hover.nvim (previous source)" })
+-- -- stylua: ignore
+-- map("n", "<C-n>", function() require("hover").hover_switch "next" end, { desc = "hover.nvim (next source)" })
+--
+-- -- Mouse support
+-- map("n", "<MouseMove>", require("hover").hover_mouse, { desc = "hover.nvim (mouse)" })
+-- vim.o.mousemoveevent = true
