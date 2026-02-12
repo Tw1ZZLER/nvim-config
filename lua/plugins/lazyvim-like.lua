@@ -24,29 +24,50 @@ return {
 
   {
     "flash.nvim",
-    event = "VeryLazy",
-    after = function()
-      require("flash").setup {}
-    end,
+    event = "VimEnter",
+    after = function() require("flash").setup {} end,
     keys = {
       { "s", function() require("flash").jump() end, mode = { "n", "x", "o" }, desc = "Flash" },
       { "S", function() require("flash").treesitter() end, mode = { "n", "x", "o" }, desc = "Flash Treesitter" },
       { "r", function() require("flash").remote() end, mode = "o", desc = "Remote Flash" },
       { "R", function() require("flash").treesitter_search() end, mode = { "o", "x" }, desc = "Treesitter Search" },
+      { "<C-s>", function() require("flash").toggle() end, mode = "c", desc = "Toggle Flash Search" },
+      {
+        "<C-space>",
+        function()
+          require("flash").treesitter {
+            actions = {
+              ["<C-space>"] = "next",
+              ["<BS>"] = "prev",
+            },
+          }
+        end,
+        mode = { "n", "o", "x" },
+        desc = "Treesitter Incremental Selection",
+      },
     },
   },
 
   {
     "todo-comments.nvim",
-    event = "VeryLazy",
+    event = "VimEnter",
     before = function() LZN.trigger_load "plenary.nvim" end,
-    after = function()
-      require("todo-comments").setup {}
-    end,
+    after = function() require("todo-comments").setup {} end,
     keys = {
       { "]t", function() require("todo-comments").jump_next() end, desc = "Next todo" },
       { "[t", function() require("todo-comments").jump_prev() end, desc = "Previous todo" },
       { "<leader>xt", "<cmd>Trouble todo toggle<cr>", desc = "Todo (Trouble)" },
+      {
+        "<leader>xT",
+        function() require("trouble").toggle("todo", { filter = { any = { { tag = { "TODO", "FIX", "FIXME" } } } } }) end,
+        desc = "Todo/Fix/Fixme (Trouble)",
+      },
+      { "<leader>st", function() Snacks.picker.todo_comments() end, desc = "Todo" },
+      {
+        "<leader>sT",
+        function() Snacks.picker.todo_comments { keywords = { "TODO", "FIX", "FIXME" } } end,
+        desc = "Todo/Fix/Fixme",
+      },
     },
   },
 
@@ -56,9 +77,7 @@ return {
     after = function()
       require("conform").setup {
         notify_on_error = false,
-        format_on_save = function(bufnr)
-          return { timeout_ms = 1000, lsp_format = "fallback", bufnr = bufnr }
-        end,
+        format_on_save = function(bufnr) return { timeout_ms = 1000, lsp_format = "fallback", bufnr = bufnr } end,
         formatters_by_ft = {
           lua = { "stylua" },
           nix = { "nixfmt" },
@@ -97,7 +116,7 @@ return {
 
   {
     "mini.nvim",
-    event = "VeryLazy",
+    event = "VimEnter",
     after = function()
       require("mini.ai").setup()
       require("mini.pairs").setup()
@@ -119,9 +138,7 @@ return {
 
   {
     "ts-comments.nvim",
-    event = "VeryLazy",
-    after = function()
-      require("ts-comments").setup()
-    end,
+    event = "VimEnter",
+    after = function() require("ts-comments").setup() end,
   },
 }

@@ -24,6 +24,13 @@ return {
         { "<leader>x", group = "Diagnostics/Lists" },
         { "<leader><tab>", group = "Tabs" },
       }
+
+      vim.keymap.set("n", "<leader>?", function()
+        wk.show { global = false }
+      end, { desc = "Buffer keymaps (which-key)" })
+      vim.keymap.set("n", "<C-w><space>", function()
+        wk.show { keys = "<c-w>", loop = true }
+      end, { desc = "Window Hydra Mode (which-key)" })
     end,
   },
 
@@ -43,14 +50,22 @@ return {
         current_line_blame = false,
       }
 
-      vim.keymap.set("n", "]h", function() require("gitsigns").nav_hunk "next" end, { desc = "Next hunk" })
-      vim.keymap.set("n", "[h", function() require("gitsigns").nav_hunk "prev" end, { desc = "Prev hunk" })
-      vim.keymap.set("n", "<leader>hs", require("gitsigns").stage_hunk, { desc = "Stage hunk" })
-      vim.keymap.set("n", "<leader>hr", require("gitsigns").reset_hunk, { desc = "Reset hunk" })
-      vim.keymap.set("n", "<leader>hS", require("gitsigns").stage_buffer, { desc = "Stage buffer" })
-      vim.keymap.set("n", "<leader>hR", require("gitsigns").reset_buffer, { desc = "Reset buffer" })
-      vim.keymap.set("n", "<leader>hp", require("gitsigns").preview_hunk, { desc = "Preview hunk" })
-      vim.keymap.set("n", "<leader>hb", function() require("gitsigns").blame_line { full = true } end, { desc = "Blame line" })
+      local gs = require "gitsigns"
+      vim.keymap.set("n", "]h", function() gs.nav_hunk "next" end, { desc = "Next hunk" })
+      vim.keymap.set("n", "[h", function() gs.nav_hunk "prev" end, { desc = "Prev hunk" })
+      vim.keymap.set("n", "]H", function() gs.nav_hunk "last" end, { desc = "Last hunk" })
+      vim.keymap.set("n", "[H", function() gs.nav_hunk "first" end, { desc = "First hunk" })
+      vim.keymap.set({ "n", "x" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", { desc = "Stage hunk" })
+      vim.keymap.set({ "n", "x" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", { desc = "Reset hunk" })
+      vim.keymap.set("n", "<leader>ghS", gs.stage_buffer, { desc = "Stage buffer" })
+      vim.keymap.set("n", "<leader>ghu", gs.undo_stage_hunk, { desc = "Undo stage hunk" })
+      vim.keymap.set("n", "<leader>ghR", gs.reset_buffer, { desc = "Reset buffer" })
+      vim.keymap.set("n", "<leader>ghp", gs.preview_hunk_inline, { desc = "Preview hunk inline" })
+      vim.keymap.set("n", "<leader>ghb", function() gs.blame_line { full = true } end, { desc = "Blame line" })
+      vim.keymap.set("n", "<leader>ghB", gs.blame, { desc = "Blame buffer" })
+      vim.keymap.set("n", "<leader>ghd", gs.diffthis, { desc = "Diff this" })
+      vim.keymap.set("n", "<leader>ghD", function() gs.diffthis "~" end, { desc = "Diff this ~" })
+      vim.keymap.set({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "Select hunk" })
     end,
   },
 
@@ -73,9 +88,24 @@ return {
     keys = {
       { "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", desc = "Diagnostics (Trouble)" },
       { "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Buffer diagnostics (Trouble)" },
-      { "<leader>xq", "<cmd>Trouble qflist toggle<cr>", desc = "Quickfix List (Trouble)" },
-      { "<leader>xl", "<cmd>Trouble loclist toggle<cr>", desc = "Location List (Trouble)" },
-      { "<leader>xs", "<cmd>Trouble symbols toggle focus=false<cr>", desc = "Symbols (Trouble)" },
+      { "<leader>xQ", "<cmd>Trouble qflist toggle<cr>", desc = "Quickfix List (Trouble)" },
+      { "<leader>xL", "<cmd>Trouble loclist toggle<cr>", desc = "Location List (Trouble)" },
+      { "<leader>cs", "<cmd>Trouble symbols toggle focus=false<cr>", desc = "Symbols (Trouble)" },
+      { "<leader>cS", "<cmd>Trouble lsp toggle focus=false win.position=right<cr>", desc = "LSP references/definitions/... (Trouble)" },
+      { "]q", function()
+          if require("trouble").is_open() then
+            require("trouble").next { skip_groups = true, jump = true }
+          else
+            vim.cmd.cnext()
+          end
+        end, desc = "Next trouble/quickfix item" },
+      { "[q", function()
+          if require("trouble").is_open() then
+            require("trouble").prev { skip_groups = true, jump = true }
+          else
+            vim.cmd.cprev()
+          end
+        end, desc = "Prev trouble/quickfix item" },
     },
   },
 
@@ -116,8 +146,6 @@ return {
     "nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     after = function()
-      local lspconfig = require "lspconfig"
-
       vim.diagnostic.config {
         underline = true,
         update_in_insert = false,
@@ -142,21 +170,26 @@ return {
         map("n", "gd", vim.lsp.buf.definition, "Go to definition")
         map("n", "gD", vim.lsp.buf.declaration, "Go to declaration")
         map("n", "gr", vim.lsp.buf.references, "References")
-        map("n", "gi", vim.lsp.buf.implementation, "Implementation")
+        map("n", "gI", vim.lsp.buf.implementation, "Go to implementation")
+        map("n", "gy", vim.lsp.buf.type_definition, "Go to type definition")
         map("n", "K", vim.lsp.buf.hover, "Hover")
-        map("n", "<leader>rn", vim.lsp.buf.rename, "Rename")
+        map("n", "gK", vim.lsp.buf.signature_help, "Signature help")
+        map("i", "<C-k>", vim.lsp.buf.signature_help, "Signature help")
+        map("n", "<leader>cl", "<cmd>LspInfo<cr>", "Lsp Info")
+        map("n", "<leader>cr", vim.lsp.buf.rename, "Rename")
         map("n", "<leader>ca", vim.lsp.buf.code_action, "Code action")
-        map("n", "<leader>lf", function() vim.lsp.buf.format { async = true } end, "Format")
+        map({ "n", "x" }, "<leader>cf", function() vim.lsp.buf.format { async = true } end, "Format")
+        map("n", "<leader>cc", vim.lsp.codelens.run, "Run codelens")
+        map("n", "<leader>cC", vim.lsp.codelens.refresh, "Refresh codelens")
       end
 
       local capabilities = vim.lsp.protocol.make_client_capabilities()
-      local ok_cmp, cmp_lsp = pcall(require, "cmp_nvim_lsp")
-      if ok_cmp then
-        capabilities = cmp_lsp.default_capabilities(capabilities)
+      local ok_blink, blink = pcall(require, "blink.cmp")
+      if ok_blink and blink.get_lsp_capabilities then
+        capabilities = blink.get_lsp_capabilities(capabilities)
       end
 
       local servers = {
-        clangd = {},
         nil_ls = {},
         lua_ls = {
           settings = {
@@ -166,69 +199,34 @@ return {
             },
           },
         },
-        pyright = {},
-        rust_analyzer = {},
-        texlab = {},
-        ltex = {
-          settings = {
-            ltex = {
-              disabledRules = {
-                ["en"] = { "MORFOLOGIK_RULE_EN" },
-                ["en-AU"] = { "MORFOLOGIK_RULE_EN_AU" },
-                ["en-CA"] = { "MORFOLOGIK_RULE_EN_CA" },
-                ["en-GB"] = { "MORFOLOGIK_RULE_EN_GB" },
-                ["en-NZ"] = { "MORFOLOGIK_RULE_EN_NZ" },
-                ["en-US"] = { "MORFOLOGIK_RULE_EN_US" },
-                ["en-ZA"] = { "MORFOLOGIK_RULE_EN_ZA" },
-                ["es"] = { "MORFOLOGIK_RULE_ES" },
-                ["it"] = { "MORFOLOGIK_RULE_IT_IT" },
-                ["de"] = { "MORFOLOGIK_RULE_DE_DE" },
-              },
-            },
-          },
-        },
       }
 
       for server, server_opts in pairs(servers) do
-        lspconfig[server].setup(vim.tbl_deep_extend("force", {
+        vim.lsp.config(server, vim.tbl_deep_extend("force", {
           on_attach = on_attach,
           capabilities = capabilities,
         }, server_opts))
+        vim.lsp.enable(server)
       end
     end,
   },
 
   {
-    "nvim-cmp",
+    "blink.cmp",
     event = "InsertEnter",
-    before = function()
-      LZN.trigger_load "cmp-buffer"
-      LZN.trigger_load "cmp-nvim-lsp"
-      LZN.trigger_load "cmp-path"
-      LZN.trigger_load "cmp_luasnip"
-      LZN.trigger_load "luasnip"
-    end,
     after = function()
-      local cmp = require "cmp"
-      local luasnip = require "luasnip"
-
-      cmp.setup {
-        snippet = {
-          expand = function(args)
-            luasnip.lsp_expand(args.body)
-          end,
+      require("blink.cmp").setup {
+        keymap = { preset = "default" },
+        completion = {
+          accept = { auto_brackets = { enabled = true } },
+          documentation = { auto_show = true },
         },
-        mapping = cmp.mapping.preset.insert {
-          ["<C-Space>"] = cmp.mapping.complete(),
-          ["<CR>"] = cmp.mapping.confirm { select = false },
-          ["<Tab>"] = cmp.mapping.select_next_item(),
-          ["<S-Tab>"] = cmp.mapping.select_prev_item(),
+        appearance = {
+          use_nvim_cmp_as_default = true,
+          nerd_font_variant = "mono",
         },
-        sources = cmp.config.sources {
-          { name = "nvim_lsp" },
-          { name = "luasnip" },
-          { name = "path" },
-          { name = "buffer" },
+        sources = {
+          default = { "lsp", "path", "snippets", "buffer" },
         },
       }
     end,

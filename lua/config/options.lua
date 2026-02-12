@@ -57,7 +57,7 @@ opt.spelllang = { "en_us" }
 opt.splitbelow = true -- Put new windows below current
 opt.splitkeep = "screen"
 opt.splitright = true -- Put new windows right of current
-opt.statuscolumn = [[%!v:lua.require'snacks.statuscolumn'.get()]]
+opt.statuscolumn = "%=%l%s"
 opt.swapfile = true
 opt.tabstop = 4 -- Number of spaces tabs count for
 opt.softtabstop = 4
