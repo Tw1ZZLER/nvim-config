@@ -1,8 +1,7 @@
 # lua/plugins
 
-This directory contains all LazySpecs and overrides for LazySpecs.
+This directory contains plugin specs consumed by `lz.n`.
 
-Each file should return a Lua table that is of type LazySpec.
+Each file should return a Lua table containing one spec or a list of specs.
 
-Only tables are returned, it is rare for actual Lua code to be ran here except
-for config functions.
+Only tables are returned; use `after` for setup code.

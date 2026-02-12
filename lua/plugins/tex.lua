@@ -1,8 +1,8 @@
----@type LazySpec
 return {
   {
-    "lervag/vimtex",
-    config = function()
+    "vimtex",
+    ft = { "tex", "plaintex", "bib" },
+    after = function()
       vim.g.vimtex_view_general_viewer = "zathura"
       vim.g.tex_flavor = "latex"
 
@@ -26,42 +26,5 @@ return {
         "Package hyperref Warning: Token not allowed in a PDF string'",
       }
     end,
-  },
-
-  {
-    "mason-org/mason.nvim",
-    opts = {
-      ensure_installed = {
-        "ltex-ls",
-      },
-    },
-  },
-
-  -- Stop LTeX from spell checking and focus on being useful
-  {
-    "neovim/nvim-lspconfig",
-    optional = true,
-    opts = {
-      servers = {
-        ltex = {
-          settings = {
-            ltex = {
-              disabledRules = {
-                ["en"] = { "MORFOLOGIK_RULE_EN" },
-                ["en-AU"] = { "MORFOLOGIK_RULE_EN_AU" },
-                ["en-CA"] = { "MORFOLOGIK_RULE_EN_CA" },
-                ["en-GB"] = { "MORFOLOGIK_RULE_EN_GB" },
-                ["en-NZ"] = { "MORFOLOGIK_RULE_EN_NZ" },
-                ["en-US"] = { "MORFOLOGIK_RULE_EN_US" },
-                ["en-ZA"] = { "MORFOLOGIK_RULE_EN_ZA" },
-                ["es"] = { "MORFOLOGIK_RULE_ES" },
-                ["it"] = { "MORFOLOGIK_RULE_IT_IT" },
-                ["de"] = { "MORFOLOGIK_RULE_DE_DE" },
-              },
-            },
-          },
-        },
-      },
-    },
   },
 }
