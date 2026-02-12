@@ -19,18 +19,26 @@ return {
         { "<leader>f", group = "Find" },
         { "<leader>g", group = "Git" },
         { "<leader>l", group = "LSP" },
+        { "<leader>o", group = "Overseer" },
         { "<leader>q", group = "Session" },
+        { "<leader>u", group = "UI" },
         { "<leader>w", group = "Window" },
         { "<leader>x", group = "Diagnostics/Lists" },
         { "<leader><tab>", group = "Tabs" },
       }
 
-      vim.keymap.set("n", "<leader>?", function()
-        wk.show { global = false }
-      end, { desc = "Buffer keymaps (which-key)" })
-      vim.keymap.set("n", "<C-w><space>", function()
-        wk.show { keys = "<c-w>", loop = true }
-      end, { desc = "Window Hydra Mode (which-key)" })
+      vim.keymap.set(
+        "n",
+        "<leader>?",
+        function() wk.show { global = false } end,
+        { desc = "Buffer keymaps (which-key)" }
+      )
+      vim.keymap.set(
+        "n",
+        "<C-w><space>",
+        function() wk.show { keys = "<c-w>", loop = true } end,
+        { desc = "Window Hydra Mode (which-key)" }
+      )
     end,
   },
 
@@ -91,21 +99,33 @@ return {
       { "<leader>xQ", "<cmd>Trouble qflist toggle<cr>", desc = "Quickfix List (Trouble)" },
       { "<leader>xL", "<cmd>Trouble loclist toggle<cr>", desc = "Location List (Trouble)" },
       { "<leader>cs", "<cmd>Trouble symbols toggle focus=false<cr>", desc = "Symbols (Trouble)" },
-      { "<leader>cS", "<cmd>Trouble lsp toggle focus=false win.position=right<cr>", desc = "LSP references/definitions/... (Trouble)" },
-      { "]q", function()
+      {
+        "<leader>cS",
+        "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+        desc = "LSP references/definitions/... (Trouble)",
+      },
+      {
+        "]q",
+        function()
           if require("trouble").is_open() then
             require("trouble").next { skip_groups = true, jump = true }
           else
             vim.cmd.cnext()
           end
-        end, desc = "Next trouble/quickfix item" },
-      { "[q", function()
+        end,
+        desc = "Next trouble/quickfix item",
+      },
+      {
+        "[q",
+        function()
           if require("trouble").is_open() then
             require("trouble").prev { skip_groups = true, jump = true }
           else
             vim.cmd.cprev()
           end
-        end, desc = "Prev trouble/quickfix item" },
+        end,
+        desc = "Prev trouble/quickfix item",
+      },
     },
   },
 
@@ -114,9 +134,7 @@ return {
   },
   {
     "nvim-notify",
-    after = function()
-      vim.notify = require "notify"
-    end,
+    after = function() vim.notify = require "notify" end,
   },
   {
     "noice.nvim",
@@ -185,9 +203,7 @@ return {
 
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       local ok_blink, blink = pcall(require, "blink.cmp")
-      if ok_blink and blink.get_lsp_capabilities then
-        capabilities = blink.get_lsp_capabilities(capabilities)
-      end
+      if ok_blink and blink.get_lsp_capabilities then capabilities = blink.get_lsp_capabilities(capabilities) end
 
       local servers = {
         nil_ls = {},
@@ -202,10 +218,13 @@ return {
       }
 
       for server, server_opts in pairs(servers) do
-        vim.lsp.config(server, vim.tbl_deep_extend("force", {
-          on_attach = on_attach,
-          capabilities = capabilities,
-        }, server_opts))
+        vim.lsp.config(
+          server,
+          vim.tbl_deep_extend("force", {
+            on_attach = on_attach,
+            capabilities = capabilities,
+          }, server_opts)
+        )
         vim.lsp.enable(server)
       end
     end,
