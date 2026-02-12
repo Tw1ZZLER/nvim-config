@@ -1,56 +1,7 @@
--- Options are automatically loaded before lazy.nvim startup
--- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
--- Add any additional options here
--- This file is automatically loaded by plugins.core
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 
--- LazyVim auto format
-vim.g.autoformat = true
-
--- Snacks animations
--- Set to `false` to globally disable all snacks animations
 vim.g.snacks_animate = true
-
--- LazyVim picker to use.
--- Can be one of: telescope, fzf
--- Leave it to "auto" to automatically use the picker
--- enabled with `:LazyExtras`
-vim.g.lazyvim_picker = "auto"
-
--- LazyVim completion engine to use.
--- Can be one of: nvim-cmp, blink.cmp
--- Leave it to "auto" to automatically use the completion engine
--- enabled with `:LazyExtras`
-vim.g.lazyvim_cmp = "auto"
-
--- if the completion engine supports the AI source,
--- use that instead of inline suggestions
-vim.g.ai_cmp = true
-
--- LazyVim root dir detection
--- Each entry can be:
--- * the name of a detector function like `lsp` or `cwd`
--- * a pattern or array of patterns like `.git` or `lua`.
--- * a function with signature `function(buf) -> string|string[]`
-vim.g.root_spec = { "lsp", { ".git", "lua" }, "cwd" }
-
--- Optionally setup the terminal to use
--- This sets `vim.o.shell` and does some additional configuration for:
--- * pwsh
--- * powershell
--- LazyVim.terminal.setup("pwsh")
-
--- Set LSP servers to be ignored when used with `util.root.detectors.lsp`
--- for detecting the LSP root
-vim.g.root_lsp_ignore = { "copilot" }
-
--- Hide deprecation warnings
-vim.g.deprecation_warnings = false
-
--- Show the current document symbols location from Trouble in lualine
--- You can disable this for a buffer by setting `vim.b.trouble_lualine = false`
-vim.g.trouble_lualine = true
 
 local opt = vim.opt
 
@@ -73,7 +24,7 @@ opt.fillchars = {
   eob = " ",
 }
 opt.foldlevel = 99
-opt.formatexpr = "v:lua.require'lazyvim.util'.format.formatexpr()"
+opt.formatexpr = ""
 opt.formatoptions = "jcroqlnt" -- tcqj
 opt.grepformat = "%f:%l:%c:%m"
 opt.grepprg = "rg --vimgrep"
@@ -122,12 +73,12 @@ opt.wrap = true
 
 if vim.fn.has "nvim-0.10" == 1 then
   opt.smoothscroll = true
-  opt.foldexpr = "v:lua.require'lazyvim.util'.treesitter.foldexpr()"
+  opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
   opt.foldmethod = "expr"
   opt.foldtext = ""
 else
   opt.foldmethod = "indent"
-  opt.foldtext = "v:lua.require'lazyvim.util'.ui.foldtext()"
+  opt.foldtext = "foldtext()"
 end
 
 -- Fix markdown indentation settings
