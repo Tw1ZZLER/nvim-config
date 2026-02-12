@@ -2,8 +2,7 @@
 
 My Neovim configuration
 
+### USES: ❄️ mnw + lz.n
 
-### USES: 💤 LazyVim
-
-A starter template for [LazyVim](https://github.com/LazyVim/LazyVim).
-Refer to the [documentation](https://lazyvim.github.io/installation) to get started.
+This config is built for `programs.mnw` and lazy-loading is handled by
+[`lz.n`](https://github.com/nvim-neorocks/lz.n).
