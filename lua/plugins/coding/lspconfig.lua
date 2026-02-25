@@ -18,30 +18,57 @@ return {
       },
     }
 
-    local on_attach = function(_, bufnr)
+    local on_attach = function(client, bufnr)
       local map = function(mode, lhs, rhs, desc)
         vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, silent = true, desc = desc })
       end
 
-      map("n", "gd", vim.lsp.buf.definition, "Go to definition")
-      map("n", "gD", vim.lsp.buf.declaration, "Go to declaration")
+      -- Navigation
+      map("n", "gd", vim.lsp.buf.definition, "Goto Definition")
+      map("n", "gD", vim.lsp.buf.declaration, "Goto Declaration")
       map("n", "gr", vim.lsp.buf.references, "References")
-      map("n", "gI", vim.lsp.buf.implementation, "Go to implementation")
-      map("n", "gy", vim.lsp.buf.type_definition, "Go to type definition")
+      map("n", "gI", vim.lsp.buf.implementation, "Goto Implementation")
+      map("n", "gy", vim.lsp.buf.type_definition, "Goto T[y]pe Definition")
+
+      -- Hover / Signature
       map("n", "K", vim.lsp.buf.hover, "Hover")
-      map("n", "gK", vim.lsp.buf.signature_help, "Signature help")
-      map("i", "<C-k>", vim.lsp.buf.signature_help, "Signature help")
+      map("n", "gK", vim.lsp.buf.signature_help, "Signature Help")
+      map("i", "<C-k>", vim.lsp.buf.signature_help, "Signature Help")
+
+      -- Code actions & refactoring
       map("n", "<leader>cl", "<cmd>LspInfo<cr>", "Lsp Info")
       map("n", "<leader>cr", vim.lsp.buf.rename, "Rename")
-      map("n", "<leader>ca", vim.lsp.buf.code_action, "Code action")
-      map({ "n", "x" }, "<leader>cf", function() vim.lsp.buf.format { async = true } end, "Format")
-      map("n", "<leader>cc", vim.lsp.codelens.run, "Run codelens")
-      map("n", "<leader>cC", vim.lsp.codelens.refresh, "Refresh codelens")
+      map({ "n", "x" }, "<leader>ca", vim.lsp.buf.code_action, "Code Action")
+      map("n", "<leader>cA", function()
+        vim.lsp.buf.code_action {
+          context = { only = { "source" }, diagnostics = {} },
+        }
+      end, "Source Action")
+      map("n", "<leader>cR", function()
+        Snacks.rename.rename_file()
+      end, "Rename File")
+
+      -- Codelens
+      map({ "n", "x" }, "<leader>cc", vim.lsp.codelens.run, "Run Codelens")
+      map("n", "<leader>cC", vim.lsp.codelens.refresh, "Refresh & Display Codelens")
+
+      -- Ruff-specific: disable hover in favor of basedpyright, add organize imports
+      if client.name == "ruff" then
+        client.server_capabilities.hoverProvider = false
+        map("n", "<leader>co", function()
+          vim.lsp.buf.code_action {
+            apply = true,
+            context = { only = { "source.organizeImports" }, diagnostics = {} },
+          }
+        end, "Organize Imports")
+      end
     end
 
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     local ok_blink, blink = pcall(require, "blink.cmp")
-    if ok_blink and blink.get_lsp_capabilities then capabilities = blink.get_lsp_capabilities(capabilities) end
+    if ok_blink and blink.get_lsp_capabilities then
+      capabilities = blink.get_lsp_capabilities(capabilities)
+    end
 
     local servers = {
       nil_ls = {},
@@ -50,6 +77,21 @@ return {
           Lua = {
             diagnostics = { globals = { "vim" } },
             workspace = { checkThirdParty = false },
+          },
+        },
+      },
+      basedpyright = {
+        settings = {
+          basedpyright = {
+            disableOrganizeImports = true,
+          },
+        },
+      },
+      ruff = {
+        cmd_env = { RUFF_TRACE = "messages" },
+        init_options = {
+          settings = {
+            logLevel = "error",
           },
         },
       },

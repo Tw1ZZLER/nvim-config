@@ -15,5 +15,13 @@ return {
       enable_autosnippets = true,
       store_selection_keys = "<Tab>",
     }
+
+    -- Snippet navigation in select mode (insert mode handled by blink.cmp)
+    vim.keymap.set("s", "<Tab>", function()
+      luasnip.jump(1)
+    end, { silent = true })
+    vim.keymap.set("s", "<S-Tab>", function()
+      luasnip.jump(-1)
+    end, { silent = true })
   end,
 }

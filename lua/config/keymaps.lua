@@ -65,22 +65,7 @@ map("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move line up" })
 map("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move selection down" })
 map("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move selection up" })
 
--------------
--- LUASNIP --
--------------
--- Yes, we're just executing a bunch of Vimscript, but this is the officially
--- endorsed method; see https://github.com/L3MON4D3/LuaSnip#keymaps
-vim.cmd [[
-" Expand or jump in insert mode
-imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>'
 
-" Jump forward through tabstops in visual mode
-smap <silent><expr> <Tab> luasnip#jumpable(1) ? '<Plug>luasnip-jump-next' : '<Tab>'
-
-" Use Shift-Tab to jump backwards through snippets
-imap <silent><expr> <S-Tab> luasnip#jumpable(-1) ? '<Plug>luasnip-jump-prev' : '<S-Tab>'
-smap <silent><expr> <S-Tab> luasnip#jumpable(-1) ? '<Plug>luasnip-jump-prev' : '<S-Tab>'
-]]
 
 -- -- Override K to use pretty_hover
 -- map("n", "K", function() require("pretty_hover").hover() end, { desc = "Pretty Hover" })
