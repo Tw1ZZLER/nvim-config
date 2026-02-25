@@ -1,5 +1,5 @@
 return {
-  "dial-nvim",
+  "dial.nvim",
   event = "VimEnter",
   after = function()
     local augend = require "dial.augend"

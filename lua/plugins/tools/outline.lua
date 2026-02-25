@@ -1,5 +1,5 @@
 return {
-  "outline-nvim",
+  "outline.nvim",
   cmd = "Outline",
   keys = {
     { "<leader>cs", "<cmd>Outline<cr>", desc = "Toggle Outline" },

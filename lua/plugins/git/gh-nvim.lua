@@ -1,12 +1,12 @@
 return {
   {
-    "litee-nvim",
+    "litee.nvim",
     lazy = true,
   },
   {
-    "gh-nvim",
+    "gh.nvim",
     cmd = { "GHOpenPR", "GHOpenIssue", "GHCloseReview", "LTPanel" },
-    before = function() LZN.trigger_load "litee-nvim" end,
+    before = function() LZN.trigger_load "litee.nvim" end,
     after = function()
       require("litee.lib").setup()
       require("litee.gh").setup {}

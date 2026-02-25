@@ -1,5 +1,5 @@
 return {
-  "edgy-nvim",
+  "edgy.nvim",
   event = "VimEnter",
   after = function()
     require("edgy").setup {

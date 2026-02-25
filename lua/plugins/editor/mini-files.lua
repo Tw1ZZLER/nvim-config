@@ -1,5 +1,5 @@
 return {
-  "mini-files",
+  "mini.files",
   keys = {
     {
       "<leader>fm",

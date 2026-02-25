@@ -1,5 +1,5 @@
 return {
-  "refactoring-nvim",
+  "refactoring.nvim",
   event = "VimEnter",
   before = function()
     LZN.trigger_load "plenary.nvim"

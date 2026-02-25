@@ -1,5 +1,5 @@
 return {
-  "mini-diff",
+  "mini.diff",
   event = "VimEnter",
   after = function()
     require("mini.diff").setup {

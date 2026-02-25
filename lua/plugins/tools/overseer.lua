@@ -1,5 +1,5 @@
 return {
-  "overseer-nvim",
+  "overseer.nvim",
   cmd = {
     "OverseerOpen",
     "OverseerClose",
