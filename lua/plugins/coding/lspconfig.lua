@@ -62,6 +62,11 @@ return {
           }
         end, "Organize Imports")
       end
+
+      -- Clangd-specific: switch source/header
+      if client.name == "clangd" then
+        map("n", "<leader>ch", "<cmd>ClangdSwitchSourceHeader<cr>", "Switch Source/Header (C/C++)")
+      end
     end
 
     local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -93,6 +98,33 @@ return {
           settings = {
             logLevel = "error",
           },
+        },
+      },
+      clangd = {
+        root_markers = {
+          ".clangd",
+          ".clang-tidy",
+          ".clang-format",
+          "compile_commands.json",
+          "compile_flags.txt",
+          "configure.ac",
+        },
+        cmd = {
+          "clangd",
+          "--background-index",
+          "--clang-tidy",
+          "--header-insertion=iwyu",
+          "--completion-style=detailed",
+          "--function-arg-placeholders",
+          "--fallback-style=llvm",
+        },
+        init_options = {
+          usePlaceholders = true,
+          completeUnimported = true,
+          clangdFileStatus = true,
+        },
+        capabilities = {
+          offsetEncoding = { "utf-16" },
         },
       },
     }

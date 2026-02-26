@@ -21,6 +21,8 @@ return {
         end,
       },
       { "<leader>c", group = "code" },
+      { "<leader>cx", group = "extract" },
+      { "<leader>cg", group = "goto (java)" },
       { "<leader>d", group = "debug" },
       { "<leader>dp", group = "profiler" },
       { "<leader>f", group = "file/find" },

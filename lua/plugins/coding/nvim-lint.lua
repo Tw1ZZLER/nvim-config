@@ -7,6 +7,8 @@ return {
 
     lint.linters_by_ft = {
       markdown = { "markdownlint-cli2" },
+      nix = { "statix", "deadnix" },
+      haskell = { "hlint" },
     }
 
     if cfg and lint.linters["markdownlint-cli2"] then
